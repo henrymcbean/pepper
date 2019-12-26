@@ -1,8 +1,9 @@
 <h1>
   {{title}}
 </h1>
+<button (click)="add()">Add</button>
 <Ul>
-  <li *ngFor="let c of cuisines | async">{{ c }}</li>
+  <li *ngFor="let c of cuisines | async">{{ c.name }}</li>
 </Ul>
 
 {{ (restaurant | async)?.name }}
