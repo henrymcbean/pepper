@@ -4,3 +4,5 @@
 <Ul>
   <li *ngFor="let c of cuisines | async">{{ c }}</li>
 </Ul>
+
+{{ (restaurant | async)?.name }}

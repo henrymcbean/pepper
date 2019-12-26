@@ -9,11 +9,13 @@ import { AngularFireDatabase } from '@angular/fire/database';
 export class AppComponent implements OnInit {
   title = 'pepper';
   cuisines;
+  restaurant;
 
   constructor(private db: AngularFireDatabase) {
   }
 
   ngOnInit(): void {
     this.cuisines = this.db.list('/cuisines').valueChanges();
+    this.restaurant = this.db.object('/restaurant').valueChanges();
   }
 }
