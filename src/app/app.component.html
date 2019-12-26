@@ -2,7 +2,10 @@
   {{title}}
 </h1>
 <button (click)="add()">Add</button>
+<span>{{ ' ' }}</span>
 <button (click)="update()">Update</button>
+<span>{{ ' ' }}</span>
+<button (click)="remove()">Remove</button>
 <Ul>
   <li *ngFor="let c of cuisines | async">{{ c.name }}</li>
 </Ul>

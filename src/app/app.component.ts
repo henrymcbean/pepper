@@ -50,4 +50,10 @@ export class AppComponent implements OnInit {
   update() {  // Destructive update.
     this.db.object('/favourites/1/10').set(null);
   }
+
+  remove() {
+    this.db.object('/restaurant').remove()
+    .then(x => console.log('SUCCESS'))
+    .catch(err => console.log('Error occcured', err));
+  }
 }
