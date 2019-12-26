@@ -6,22 +6,14 @@ import { AngularFireDatabase } from '@angular/fire/database';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   title = 'pepper';
   cuisines;
-  private subscription;
 
   constructor(private db: AngularFireDatabase) {
   }
 
   ngOnInit(): void {
-    this.subscription = this.db.list('/cuisines').valueChanges().subscribe(x => {
-      this.cuisines = x;
-      console.log(this.cuisines);
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.cuisines = this.db.list('/cuisines').valueChanges();
   }
 }

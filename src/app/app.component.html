@@ -2,5 +2,5 @@
   {{title}}
 </h1>
 <Ul>
-  <li *ngFor="let c of cuisines">{{ c }}</li>
+  <li *ngFor="let c of cuisines | async">{{ c }}</li>
 </Ul>
