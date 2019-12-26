@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
+import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angular/fire/database';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +9,7 @@ import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 export class AppComponent implements OnInit {
   title = 'pepper';
   cuisines$: AngularFireList<any>;
+  restaurant$: AngularFireObject<any>;
   cuisines;
   restaurant;
 
@@ -17,8 +18,10 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.cuisines$ = this.db.list('/cuisines');
+    this.restaurant$ = this.db.object('/restaurant');
+
     this.cuisines = this.cuisines$.valueChanges();
-    this.restaurant = this.db.object('/restaurant').valueChanges();
+    this.restaurant = this.restaurant$.valueChanges();
   }
 
   add() {
@@ -28,5 +31,23 @@ export class AppComponent implements OnInit {
         description: '...'
       }
     });
+  }
+
+  // update() { // Non destructive update.
+  //   this.restaurant$.update({
+  //     name: 'New Name',
+  //     rating: 5
+  //   });
+  // }
+
+  // update() {  // Destructive update.
+  //   this.restaurant$.set({
+  //     name: 'New Name',
+  //     rating: 5
+  //   });
+  // }
+
+  update() {  // Destructive update.
+    this.db.object('/favourites/1/10').set(null);
   }
 }
