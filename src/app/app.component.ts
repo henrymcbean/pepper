@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angular/fire/database';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -8,52 +10,27 @@ import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angula
 })
 export class AppComponent implements OnInit {
   title = 'pepper';
-  cuisines$: AngularFireList<any>;
-  restaurant$: AngularFireObject<any>;
-  cuisines;
-  restaurant;
+  cuisines$: AngularFireList<any[]>;
+  restaurant$: AngularFireList<any[]>;
+  cuisines: Observable<any[]>;
+  restaurants: Observable<any[]>;
 
   constructor(private db: AngularFireDatabase) {
   }
 
   ngOnInit(): void {
     this.cuisines$ = this.db.list('/cuisines');
-    this.restaurant$ = this.db.object('/restaurant');
+    this.restaurant$ = this.db.list('/restaurants');
 
     this.cuisines = this.cuisines$.valueChanges();
-    this.restaurant = this.restaurant$.valueChanges();
-  }
-
-  add() {
-    this.cuisines$.push({
-      name: 'Asian',
-      details: {
-        description: '...'
-      }
-    });
-  }
-
-  // update() { // Non destructive update.
-  //   this.restaurant$.update({
-  //     name: 'New Name',
-  //     rating: 5
-  //   });
-  // }
-
-  // update() {  // Destructive update.
-  //   this.restaurant$.set({
-  //     name: 'New Name',
-  //     rating: 5
-  //   });
-  // }
-
-  update() {  // Destructive update.
-    this.db.object('/favourites/1/10').set(null);
-  }
-
-  remove() {
-    this.db.object('/restaurant').remove()
-    .then(x => console.log('SUCCESS'))
-    .catch(err => console.log('Error occcured', err));
+    this.restaurants = this.restaurant$.valueChanges()
+      .pipe(map(restaurants => {
+        console.log('BEFORE MAP', restaurants);
+        restaurants.map(restaurant => {
+          restaurant.cuisineType = this.db.object('/cuisines/' + restaurant.cuisine).valueChanges();
+        });
+        console.log('AFTER MAP', restaurants);
+        return restaurants;
+      }));
   }
 }

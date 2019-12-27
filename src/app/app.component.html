@@ -1,13 +1,8 @@
-<h1>
-  {{title}}
-</h1>
-<button (click)="add()">Add</button>
-<span>{{ ' ' }}</span>
-<button (click)="update()">Update</button>
-<span>{{ ' ' }}</span>
-<button (click)="remove()">Remove</button>
-<Ul>
-  <li *ngFor="let c of cuisines | async">{{ c.name }}</li>
-</Ul>
-
-{{ (restaurant | async)?.name }}
+<h1>Cuisines</h1>
+<ul>
+  <li *ngFor="let c of cuisines | async">{{ c }}</li>
+</ul>
+<h1>Restaurant</h1>
+<ul>
+<li *ngFor="let  r of restaurants | async">{{ r?.name }} - {{(r.cuisineType | async) }}</li>
+</ul>
