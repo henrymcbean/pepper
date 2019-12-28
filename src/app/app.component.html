@@ -2,7 +2,16 @@
 <ul>
   <li *ngFor="let c of cuisines | async">{{ c }}</li>
 </ul>
+<h1>Features</h1>
+<ul>
+  <li *ngFor="let f of features | async">{{ f }}</li>
+</ul>
 <h1>Restaurant</h1>
 <ul>
-<li *ngFor="let  r of restaurants | async">{{ r?.name }} - {{(r.cuisineType | async) }}</li>
+  <li *ngFor="let  r of restaurants | async">
+    {{ r?.name }}
+    <ul>
+    <li *ngFor="let f of r.featureTypes">{{ f.value }}</li>
+    </ul>
+  </li>
 </ul>
